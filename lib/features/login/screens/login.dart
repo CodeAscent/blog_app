@@ -1,3 +1,4 @@
+import 'package:blog_app/features/bottom_nav/bottom_nav.dart';
 import 'package:blog_app/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  Get.to(() => BottomNav());
                   if (_globalKey.currentState!.validate()) {}
                 },
                 child: Text("Login"),
