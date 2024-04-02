@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.changeThemeMode(ThemeMode.dark);
     return GetMaterialApp(
-      title: 'Blog IT',
+      title: 'Blog IT ',
       darkTheme: ThemeData(
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
