@@ -1,11 +1,13 @@
 import 'package:blog_app/bloc/auth_bloc.dart';
+import 'package:blog_app/core/common/utils/app_colors.dart';
 import 'package:blog_app/core/secrets/supabase_app.dart';
 import 'package:blog_app/features/auth/data/dataSources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:blog_app/features/bottom_nav/bottom_nav.dart';
-import 'package:blog_app/features/domain/repository/auth_repository.dart';
-import 'package:blog_app/features/domain/useCases/user_sign_up.dart';
+import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:blog_app/features/auth/domain/useCases/user_sign_up.dart';
 import 'package:blog_app/features/signup/screens/signup.dart';
+import 'package:blog_app/get_it_dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -13,16 +15,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final supabase = await Supabase.initialize(
-      url: SupabaseSecrets.url, anonKey: SupabaseSecrets.anonKey);
+  await initDependencies();
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
-      create: (_) => AuthBloc(
-        userSignUp: UserSignUp(
-          AuthRepositoryImpl(AuthRemoteDataSourceImpl(supabase.client)),
-        ),
-      ),
-    ),
+    BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
   ], child: const MyApp()));
 }
 
@@ -41,9 +36,9 @@ class MyApp extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
-                backgroundColor: Colors.pink.shade100)),
+                backgroundColor: inversePrimaryColor())),
         colorScheme: ColorScheme.dark(
-            primary: Colors.pink, inversePrimary: Colors.pink.shade100),
+            primary: primaryColor(), inversePrimary: inversePrimaryColor()),
       ),
       home: const SignUpScreen(),
     );

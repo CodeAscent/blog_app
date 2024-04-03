@@ -1,4 +1,6 @@
 import 'package:blog_app/bloc/auth_bloc.dart';
+import 'package:blog_app/core/common/utils/custom_snackbar.dart';
+import 'package:blog_app/core/common/widgets/custom_loader.dart';
 import 'package:blog_app/features/login/screens/login.dart';
 import 'package:blog_app/widgets/text_field.dart';
 import 'package:flutter/material.dart';
@@ -19,74 +21,86 @@ class _SignUpScreenState extends State<SignUpScreen> {
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _globalKey,
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Sign Up.",
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthFailure) {
+          customSnackbar(state.message);
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthLoading) {
+          return CustomLoader();
+        }
+        return Form(
+          key: _globalKey,
+          child: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Sign Up.",
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  RepeatedTextField(
+                    hint: "Username",
+                    validator: (val) => val!.length < 5
+                        ? "Please enter a upto 5 characters username"
+                        : null,
+                    controller: _usernameController,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RepeatedTextField(
+                    hint: "Email",
+                    validator: (val) => val!.length < 10
+                        ? "Please enter a valid email address"
+                        : null,
+                    controller: _emailController,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RepeatedTextField(
+                    hint: "Password",
+                    validator: (val) => val!.length < 8
+                        ? "Please enter a 8 characters password"
+                        : null,
+                    controller: _passwordController,
+                  ),
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      child: Text("Already have an account?"),
+                      onPressed: () {
+                        Get.to(() => LoginScreen());
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_globalKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(AuthSignUp(
+                            email: _emailController.text.trim(),
+                            name: _usernameController.text.trim(),
+                            password: _passwordController.text.trim()));
+                      }
+                    },
+                    child: Text("Sign Up"),
+                  )
+                ],
               ),
-              SizedBox(
-                height: 40,
-              ),
-              RepeatedTextField(
-                hint: "Username",
-                validator: (val) => val!.length < 5
-                    ? "Please enter a upto 5 characters username"
-                    : null,
-                controller: _usernameController,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RepeatedTextField(
-                hint: "Email",
-                validator: (val) => val!.length < 10
-                    ? "Please enter a valid email address"
-                    : null,
-                controller: _emailController,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RepeatedTextField(
-                hint: "Password",
-                validator: (val) => val!.length < 8
-                    ? "Please enter a 8 characters password"
-                    : null,
-                controller: _passwordController,
-              ),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  child: Text("Already have an account?"),
-                  onPressed: () {
-                    Get.to(() => LoginScreen());
-                  },
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_globalKey.currentState!.validate()) {
-                    context.read<AuthBloc>().add(AuthSignUp(
-                        email: _emailController.text.trim(),
-                        name: _usernameController.text.trim(),
-                        password: _passwordController.text.trim()));
-                  }
-                },
-                child: Text("Sign Up"),
-              )
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
