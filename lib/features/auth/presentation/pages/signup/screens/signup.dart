@@ -1,20 +1,21 @@
-import 'package:blog_app/bloc/auth_bloc.dart';
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/core/common/utils/custom_snackbar.dart';
 import 'package:blog_app/core/common/widgets/custom_loader.dart';
-import 'package:blog_app/features/bottom_nav/bottom_nav.dart';
-import 'package:blog_app/widgets/text_field.dart';
+import 'package:blog_app/features/auth/presentation/pages/login/screens/login.dart';
+import 'package:blog_app/features/auth/presentation/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
@@ -25,6 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is AuthFailure) {
           customSnackbar(state.message);
         }
+        // if (state is AuthSuccess) {
+        //   Get.to(() => LoginScreen());
+        // }
       },
       builder: (context, state) {
         if (state is AuthLoading) {
@@ -40,11 +44,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Login.",
+                    "Sign Up.",
                     style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
                   ),
                   SizedBox(
                     height: 40,
+                  ),
+                  RepeatedTextField(
+                    hint: "Username",
+                    validator: (val) => val!.length < 5
+                        ? "Please enter a upto 5 characters username"
+                        : null,
+                    controller: _usernameController,
                   ),
                   SizedBox(
                     height: 20,
@@ -70,21 +81,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      child: Text("Don\'t have an account?"),
+                      child: Text("Already have an account?"),
                       onPressed: () {
-                        Get.back();
+                        Get.to(() => LoginScreen());
                       },
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       if (_globalKey.currentState!.validate()) {
-                        context.read<AuthBloc>().add(AuthLogin(
+                        context.read<AuthBloc>().add(AuthSignUp(
                             email: _emailController.text.trim(),
+                            name: _usernameController.text.trim(),
                             password: _passwordController.text.trim()));
                       }
                     },
-                    child: Text("Login"),
+                    child: Text("Sign Up"),
                   )
                 ],
               ),

@@ -1,21 +1,22 @@
-import 'package:blog_app/bloc/auth_bloc.dart';
+// ignore_for_file: unused_import
+
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/core/common/utils/custom_snackbar.dart';
 import 'package:blog_app/core/common/widgets/custom_loader.dart';
-import 'package:blog_app/features/login/screens/login.dart';
-import 'package:blog_app/widgets/text_field.dart';
+import 'package:blog_app/features/blog/presentation/pages/bottom_nav/bottom_nav.dart';
+import 'package:blog_app/features/auth/presentation/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _usernameController = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
@@ -41,18 +42,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Sign Up.",
+                    "Login.",
                     style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
                   ),
                   SizedBox(
                     height: 40,
-                  ),
-                  RepeatedTextField(
-                    hint: "Username",
-                    validator: (val) => val!.length < 5
-                        ? "Please enter a upto 5 characters username"
-                        : null,
-                    controller: _usernameController,
                   ),
                   SizedBox(
                     height: 20,
@@ -78,22 +72,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      child: Text("Already have an account?"),
+                      child: Text("Don\'t have an account?"),
                       onPressed: () {
-                        Get.to(() => LoginScreen());
+                        Get.back();
                       },
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       if (_globalKey.currentState!.validate()) {
-                        context.read<AuthBloc>().add(AuthSignUp(
+                        context.read<AuthBloc>().add(AuthLogin(
                             email: _emailController.text.trim(),
-                            name: _usernameController.text.trim(),
                             password: _passwordController.text.trim()));
                       }
                     },
-                    child: Text("Sign Up"),
+                    child: Text("Login"),
                   )
                 ],
               ),
