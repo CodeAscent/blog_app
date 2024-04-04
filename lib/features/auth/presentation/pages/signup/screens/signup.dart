@@ -26,9 +26,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (state is AuthFailure) {
           customSnackbar(state.message);
         }
-        // if (state is AuthSuccess) {
-        //   Get.to(() => LoginScreen());
-        // }
+        if (state is AuthSuccess) {
+          Get.to(() => LoginScreen());
+        }
       },
       builder: (context, state) {
         if (state is AuthLoading) {
@@ -83,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: TextButton(
                       child: Text("Already have an account?"),
                       onPressed: () {
-                        Get.to(() => LoginScreen());
+                        Get.back();
                       },
                     ),
                   ),

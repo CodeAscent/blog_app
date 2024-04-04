@@ -3,7 +3,8 @@
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/core/common/utils/custom_snackbar.dart';
 import 'package:blog_app/core/common/widgets/custom_loader.dart';
-import 'package:blog_app/features/blog/presentation/pages/bottom_nav/bottom_nav.dart';
+import 'package:blog_app/features/auth/presentation/pages/signup/screens/signup.dart';
+import 'package:blog_app/features/blog/presentation/widgets/bottom_nav.dart';
 import 'package:blog_app/features/auth/presentation/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                       child: Text("Don\'t have an account?"),
                       onPressed: () {
-                        Get.back();
+                        Get.to(()=> SignUpScreen());
                       },
                     ),
                   ),

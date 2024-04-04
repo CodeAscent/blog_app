@@ -1,8 +1,9 @@
-
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/core/common/cubit/app_user_cubit.dart';
 import 'package:blog_app/core/common/utils/app_colors.dart';
-import 'package:blog_app/features/blog/presentation/pages/bottom_nav/bottom_nav.dart';
+import 'package:blog_app/features/auth/presentation/pages/login/screens/login.dart';
+import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:blog_app/features/blog/presentation/widgets/bottom_nav.dart';
 import 'package:blog_app/features/auth/presentation/pages/signup/screens/signup.dart';
 import 'package:blog_app/get_it_dependency.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ void main() async {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
     BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+    BlocProvider(create: (_) => serviceLocator<BlogBloc>()),
   ], child: const MyApp()));
 }
 
@@ -39,6 +41,12 @@ class _MyAppState extends State<MyApp> {
       title: 'Blog IT',
       darkTheme: ThemeData(
         useMaterial3: true,
+        inputDecorationTheme: InputDecorationTheme(
+            isDense: true,
+            contentPadding: EdgeInsets.all(20),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            )),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -53,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) return BottomNav();
-          return const SignUpScreen();
+          return const LoginScreen();
         },
       ),
     );

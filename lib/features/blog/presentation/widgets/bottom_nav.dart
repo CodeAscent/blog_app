@@ -1,3 +1,7 @@
+import 'package:blog_app/features/blog/presentation/pages/home_screen.dart';
+import 'package:blog_app/features/blog/presentation/pages/newPost/screens/new_post_screen.dart';
+import 'package:blog_app/features/blog/presentation/pages/profile_screen.dart';
+import 'package:blog_app/features/blog/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -17,11 +21,11 @@ class _BottomNavState extends State<BottomNav> {
   }
 
   List<Widget> _buildScreens = [
-    Text("screen1"),
-    Text("screen2"),
-    Text("screen3"),
+    HomeScreen(),
+    SearchScreen(),
+    NewPostScreen(),
     Text("screen4"),
-    Text("screen5"),
+    ProfileScreen(),
   ];
   List<Widget> _centerBuilds() {
     List<Widget> newList = [];
@@ -42,6 +46,13 @@ class _BottomNavState extends State<BottomNav> {
         context,
         screens: _centerBuilds(),
         items: _navBarsItems(),
+        navBarStyle: NavBarStyle.style13,
+        stateManagement: false,
+        screenTransitionAnimation: ScreenTransitionAnimation(
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
       ),
     );
   }
