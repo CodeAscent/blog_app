@@ -5,18 +5,12 @@ import 'package:blog_app/core/common/utils/app_colors.dart';
 import 'package:blog_app/core/common/utils/custom_image_picker.dart';
 import 'package:blog_app/core/common/utils/custom_snackbar.dart';
 import 'package:blog_app/core/common/widgets/custom_loader.dart';
-import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
-import 'package:blog_app/features/blog/domain/useCases/upload_blog.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/pages/newPost/widgets/select_image_box.dart';
 import 'package:blog_app/features/blog/presentation/pages/newPost/widgets/selected_image_box.dart';
 import 'package:blog_app/features/blog/presentation/pages/newPost/widgets/text_field.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class NewPostScreen extends StatefulWidget {
   const NewPostScreen({super.key});

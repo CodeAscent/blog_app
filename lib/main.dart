@@ -4,7 +4,6 @@ import 'package:blog_app/core/common/utils/app_colors.dart';
 import 'package:blog_app/features/auth/presentation/pages/login/screens/login.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/widgets/bottom_nav.dart';
-import 'package:blog_app/features/auth/presentation/pages/signup/screens/signup.dart';
 import 'package:blog_app/get_it_dependency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
