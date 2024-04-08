@@ -19,3 +19,8 @@ final class BlogUploadEvent extends BlogEvent {
 }
 
 final class GetAllBlogsEvent extends BlogEvent {}
+
+final class GetBlogsByUserIdEvent extends BlogEvent {
+  final String ownerId;
+  GetBlogsByUserIdEvent({required this.ownerId});
+}

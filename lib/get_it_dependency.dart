@@ -1,3 +1,4 @@
+import 'package:blog_app/features/auth/domain/useCases/logout_user.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/core/common/cubit/app_user_cubit.dart';
 import 'package:blog_app/core/secrets/supabase_app.dart';
@@ -11,6 +12,7 @@ import 'package:blog_app/features/blog/data/dataSources/blog_remote_data_source.
 import 'package:blog_app/features/blog/data/repositories/blog_repositories_impl.dart';
 import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
 import 'package:blog_app/features/blog/domain/useCases/get_all_blogs.dart';
+import 'package:blog_app/features/blog/domain/useCases/get_blogs_by_user_id.dart';
 import 'package:blog_app/features/blog/domain/useCases/upload_blog.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -36,11 +38,13 @@ void _initAuth() {
     ..registerFactory(() => UserSignUp(serviceLocator()))
     ..registerFactory(() => UserLogin(serviceLocator()))
     ..registerFactory(() => CurrentUser(serviceLocator()))
+    ..registerFactory(() => LogoutUser(serviceLocator()))
     ..registerLazySingleton(() => AuthBloc(
         currentUser: serviceLocator<CurrentUser>(),
         userSignUp: serviceLocator<UserSignUp>(),
         userLogin: serviceLocator<UserLogin>(),
-        appUserCubit: serviceLocator<AppUserCubit>()));
+        appUserCubit: serviceLocator<AppUserCubit>(),
+        logoutUser: serviceLocator()));
 }
 
 void _initBlog() {
@@ -51,6 +55,9 @@ void _initBlog() {
         () => BlogRepositoryImpl(serviceLocator()))
     ..registerFactory(() => UploadBlog(serviceLocator()))
     ..registerFactory(() => GetAllBlogs(serviceLocator()))
-    ..registerLazySingleton(() =>
-        BlogBloc(uploadBlog: serviceLocator(), getAllBlogs: serviceLocator()));
+    ..registerFactory(() => GetBlogsByUserId(serviceLocator()))
+    ..registerLazySingleton(() => BlogBloc(
+        uploadBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
+        getBlogsByUserId: serviceLocator()));
 }

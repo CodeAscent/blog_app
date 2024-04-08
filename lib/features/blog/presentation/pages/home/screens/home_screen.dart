@@ -90,7 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             );
           }
-          return SizedBox();
+          return SizedBox(
+            child: TextButton(
+                onPressed: () {
+                  context.read<BlogBloc>().add(GetAllBlogsEvent());
+                },
+                child: Center(child: Text("Refresh"))),
+          );
         },
       ),
     );

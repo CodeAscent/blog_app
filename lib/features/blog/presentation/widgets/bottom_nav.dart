@@ -1,7 +1,10 @@
-import 'package:blog_app/features/blog/presentation/pages/home_screen.dart';
+import 'package:blog_app/core/common/utils/app_colors.dart';
+import 'package:blog_app/features/blog/presentation/pages/home/screens/home_screen.dart';
 import 'package:blog_app/features/blog/presentation/pages/newPost/screens/new_post_screen.dart';
-import 'package:blog_app/features/blog/presentation/pages/profile_screen.dart';
-import 'package:blog_app/features/blog/presentation/pages/search_screen.dart';
+import 'package:blog_app/features/blog/presentation/pages/profile/screens/profile_screen.dart';
+import 'package:blog_app/features/blog/presentation/pages/search/screens/search_screen.dart';
+import 'package:double_back_to_exit/non_web_preview.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -24,7 +27,7 @@ class _BottomNavState extends State<BottomNav> {
     HomeScreen(),
     SearchScreen(),
     NewPostScreen(),
-    Text("screen4"),
+    Text("messages"),
     ProfileScreen(),
   ];
   List<Widget> _centerBuilds() {
@@ -40,18 +43,25 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PersistentTabView(
-        backgroundColor: Colors.black,
-        controller: _controller,
-        context,
-        screens: _centerBuilds(),
-        items: _navBarsItems(),
-        navBarStyle: NavBarStyle.style13,
-        stateManagement: false,
-        screenTransitionAnimation: ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
+      body: DoubleBackToExitWidget(
+        margin: EdgeInsets.all(20),
+        behavior: SnackBarBehavior.floating,
+        doubleBackDuration: Duration(milliseconds: 1700),
+        backgroundColor: primaryColor(),
+        snackBarMessage: "Press Again to Exit!",
+        child: PersistentTabView(
+          backgroundColor: Colors.black,
+          controller: _controller,
+          context,
+          screens: _centerBuilds(),
+          items: _navBarsItems(),
+          navBarStyle: NavBarStyle.style13,
+          stateManagement: false,
+          screenTransitionAnimation: ScreenTransitionAnimation(
+            animateTabTransition: true,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 200),
+          ),
         ),
       ),
     );
@@ -93,8 +103,8 @@ List<PersistentBottomNavBarItem> _navBarsItems() => [
         ),
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.settings),
-        title: "Settings",
+        icon: const Icon(CupertinoIcons.profile_circled),
+        title: "Profile",
         activeColorPrimary: Colors.indigo,
         inactiveColorPrimary: Colors.grey,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(

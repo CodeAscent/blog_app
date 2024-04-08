@@ -14,8 +14,11 @@ final class BlogFailure extends BlogState {
 
 final class BlogFetchSuccess extends BlogState {
   final List<Blog> blogs;
-
   BlogFetchSuccess(this.blogs);
+}
+final class BlogFetchByUserIdSuccess extends BlogState {
+  final List<Blog> blogs;
+  BlogFetchByUserIdSuccess(this.blogs);
 }
 
 final class BlogUploadSuccess extends BlogState {}

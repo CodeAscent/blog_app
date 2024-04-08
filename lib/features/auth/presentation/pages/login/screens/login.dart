@@ -28,11 +28,15 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is AuthFailure) {
           customSnackbar(state.message);
         }
+        if (state is AuthSuccess) {
+          Get.offUntil(MaterialPageRoute(builder: (BuildContext context)  => BottomNav()), (route) => false);
+        }
       },
       builder: (context, state) {
         if (state is AuthLoading) {
           return CustomLoader();
         }
+
         return Form(
           key: _globalKey,
           child: Scaffold(
@@ -75,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextButton(
                       child: Text("Don\'t have an account?"),
                       onPressed: () {
-                        Get.to(()=> SignUpScreen());
+                        Get.to(() => SignUpScreen());
                       },
                     ),
                   ),
